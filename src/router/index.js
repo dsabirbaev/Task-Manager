@@ -14,6 +14,16 @@ const router = createRouter({
           name: 'home',
           component: () => import('@/views/Home.vue')
         },
+        {
+          path: '/task-list',
+          name: 'task-list',
+          component: () => import('@/views/TaskList.vue')
+        },
+        {
+          path: '/statistic',
+          name: 'statistic',
+          component: () => import('@/views/Statistic.vue')
+        }
       ]
     },
   ]

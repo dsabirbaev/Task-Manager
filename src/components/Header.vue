@@ -12,12 +12,12 @@
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/" title="Bosh sahifa" class="text-white font-semibold text-[18px]">
-                            Календарь
+                        <router-link to="/task-list" title="Bosh sahifa" class="text-white font-semibold text-[18px]">
+                            Список задач
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/" title="Bosh sahifa" class="text-white font-semibold text-[18px]">
+                        <router-link to="/statistic" title="Bosh sahifa" class="text-white font-semibold text-[18px]">
                             Статистика
                         </router-link>
                     </li>
