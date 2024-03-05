@@ -1,9 +1,11 @@
 
 
 <template>
-    <div class="card w-[900px] p-4 flex items-center justify-between"> 
-        <router-link :to="{ path: 'task-list' + '/' + data?.$id }">
-            {{ data?.title }}
+    <div class="card w-[900px]  flex items-center justify-between gap-x-1"> 
+        <router-link :to="{ path: 'task-list' + '/' + data?.$id }" class="grow">
+            <p class="p-4">
+                {{ data?.title }}
+            </p>
         </router-link>
         <div class="flex gap-x-4"> 
             
