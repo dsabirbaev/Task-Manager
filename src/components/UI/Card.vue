@@ -26,9 +26,15 @@
     import Button from 'primevue/button';
     const props = defineProps(['data'])
     import ModalEdit  from "@/components/UI/ModalEdit.vue";
+
+    //// appwrite
     import {database, DB_ID, COLLECTION_TASK_ID } from "@/lib/appwrite.js";
 
+    //// store Pinia
+    import { useTaskStore } from "@/stores/taskStore";
+    const listTaskStore = useTaskStore(); 
 
+    //// modal window
     const visibleModalEdit = ref(false);
     const openModalEdit = () => {
         visibleModalEdit.value = true;
@@ -41,8 +47,8 @@
 
     const deleteTask = async(id) => {
         try{
-            const res = await database.deleteDocument(DB_ID, COLLECTION_TASK_ID, id)
-            
+            await database.deleteDocument(DB_ID, COLLECTION_TASK_ID, id)
+            listTaskStore.getTask();
         }catch(error){
             console.log(error)
         }

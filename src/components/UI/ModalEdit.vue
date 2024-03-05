@@ -37,6 +37,10 @@
     //// appwrite
     import {database, DB_ID, COLLECTION_TASK_ID } from "@/lib/appwrite.js";
 
+    //// store Pinia
+    import { useTaskStore } from "@/stores/taskStore";
+    const listTaskStore = useTaskStore(); 
+
     //// modal window settings
     import { defineProps, defineEmits } from 'vue';
     const { visibleModalEdit, taskId } = defineProps(['visibleModalEdit', 'taskId']);
@@ -64,6 +68,7 @@
             await database.updateDocument(DB_ID, COLLECTION_TASK_ID, taskId, data)
             loader.value = false
             closeDialog();
+            listTaskStore.getTask();
         }catch(error){
             console.log(error)
             loader.value = false

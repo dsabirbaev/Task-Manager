@@ -31,6 +31,10 @@
     import Button from 'primevue/button';
     import InputText from 'primevue/inputtext';
     import Textarea from 'primevue/textarea';
+
+    //// store Pinia
+    import { useTaskStore } from "@/stores/taskStore";
+    const listTaskStore = useTaskStore(); 
     
     //// modal window
     import { defineProps, defineEmits } from 'vue';
@@ -53,12 +57,13 @@
             text: text.value
         }
         try{
-
             await database.createDocument( DB_ID, COLLECTION_TASK_ID, unique_id, data);
-          
             loader.value = false
             closeDialog();
-            
+            title.value = "";
+            text.value = "";
+
+            listTaskStore.getTask();
         }catch(error){
             console.log(error)
             loader.value = false
