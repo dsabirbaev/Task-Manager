@@ -2,7 +2,7 @@
 
 <template>
    <Dialog :visible="visibleModalAdd" modal id="modal-add" :style="{ width: '40rem' }">
-        
+        <Toast />
         <div class="flex flex-col gap-y-4 mb-5">
             
             <InputText type="text" v-model="title" class="shadow-lg border-none py-3" placeholder="Заголовок" />
@@ -31,6 +31,11 @@
     import Button from 'primevue/button';
     import InputText from 'primevue/inputtext';
     import Textarea from 'primevue/textarea';
+
+    //// prime vue toast
+    import { useToast } from "primevue/usetoast";
+    const toast = useToast();
+
 
     //// store Pinia
     import { useTaskStore } from "@/stores/taskStore";
@@ -62,10 +67,10 @@
             closeDialog();
             title.value = "";
             text.value = "";
-
+            toast.add({ severity: 'success', detail: 'Добавлена ​​задача!', life: 1500 });
             listTaskStore.getTask();
         }catch(error){
-            console.log(error)
+            toast.add({ severity: 'error', detail: 'Упс, что-то пошло не так!', life: 2000 });
             loader.value = false
         }
     }

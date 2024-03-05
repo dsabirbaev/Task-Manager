@@ -37,6 +37,10 @@
     //// appwrite
     import {database, DB_ID, COLLECTION_TASK_ID } from "@/lib/appwrite.js";
 
+     //// prime vue toast
+    import { useToast } from "primevue/usetoast";
+    const toast = useToast();
+
     //// store Pinia
     import { useTaskStore } from "@/stores/taskStore";
     const listTaskStore = useTaskStore(); 
@@ -68,9 +72,10 @@
             await database.updateDocument(DB_ID, COLLECTION_TASK_ID, taskId, data)
             loader.value = false
             closeDialog();
+            toast.add({ severity: 'success', detail: 'Задача отредактирована!', life: 1500 });
             listTaskStore.getTask();
         }catch(error){
-            console.log(error)
+            toast.add({ severity: 'error', detail: 'Упс, что-то пошло не так!', life: 2000 });
             loader.value = false
         }
     }

@@ -3,6 +3,7 @@
 
 <template>
     <section class="task-list-page">
+        <Toast />
         <div v-if="listTaskStore.loader" class="flex items-center justify-center task-list-page bg-red-50">
             <i class="pi pi-spin pi-spinner text-4xl text-[#BA5112]"></i>
         </div>
