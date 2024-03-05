@@ -2,22 +2,61 @@
 
 <template>
     <div class="card w-[900px] p-4 flex items-center justify-between"> 
-        <p>text</p>
+        <router-link :to="{ path: 'task-list' + '/' + data?.$id }">
+            {{ data?.title }}
+        </router-link>
         <div class="flex gap-x-4"> 
-            <i class="pi pi-pencil text-md text-green-600 cursor-pointer" title="edit" ></i>
-            <i class="pi pi-trash text-md text-red-600 cursor-pointer" title="delete"></i>
+            
+            
+            <Button @click="openModalEdit" label="Save"  title="Edit" outlined>
+                <i class="pi pi-pencil text-md"/>
+            </Button>
+            <ModalEdit :visibleModalEdit="visibleModalEdit" :taskId="data?.$id" @closeModalEdit="closeModalEdit" />
+
+            <Button @click="deleteTask(data?.$id)"  label="Delete" severity="danger" title="Delete" outlined>
+                <i class="pi pi-trash text-md"/>
+            </Button>
+    
         </div>
     </div>
 </template>
 
 <script setup>
+    import { ref } from 'vue';
+    import Button from 'primevue/button';
+    const props = defineProps(['data'])
+    import ModalEdit  from "@/components/UI/ModalEdit.vue";
+    import {database, DB_ID, COLLECTION_TASK_ID } from "@/lib/appwrite.js";
+
+
+    const visibleModalEdit = ref(false);
+    const openModalEdit = () => {
+        visibleModalEdit.value = true;
+    };
+
+    const closeModalEdit = () => {
+        visibleModalEdit.value = false;
+    };
+
+
+    const deleteTask = async(id) => {
+        try{
+            const res = await database.deleteDocument(DB_ID, COLLECTION_TASK_ID, id)
+            
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+
+   
 
 </script>
 
 
-<style scoped>
-    
 
+<style scoped>
+   
     .card {
         box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.1);
         border-radius: 12px;

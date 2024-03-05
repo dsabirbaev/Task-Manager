@@ -12,8 +12,8 @@
                 <div> 
                     <h2 class="text-center font-bold text-xl mb-5">Список задач</h2>
 
-                    <div class="flex items-center justify-center"> 
-                        
+                    <div class="flex flex-col gap-y-5 items-center justify-center"> 
+                        <Card v-for="item, index in listTasks" :key="index" :data="item" />
                         
                     </div>    
                 </div>
@@ -23,10 +23,13 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
     import ModalAdd  from "@/components/UI/ModalAdd.vue";
     import Card from "@/components/UI/Card.vue";
-   
+    import {database, DB_ID, COLLECTION_TASK_ID } from "@/lib/appwrite.js";
+
+
+    const listTasks = ref([]);
     const visibleModalAdd = ref(false);
     const openModalAdd = () => {
         visibleModalAdd.value = true;
@@ -36,7 +39,20 @@
         visibleModalAdd.value = false;
     };
 
+    
+    const getTask = async() => {
+        try{
+            const response = await database.listDocuments(DB_ID, COLLECTION_TASK_ID);
+            listTasks.value = response.documents;
+            
+        }catch(error){
+            console.log(error)
+        }
+    }
 
+    onMounted(() => {
+        getTask();
+    })
 
 </script>
 
@@ -45,9 +61,4 @@
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1)
     }
 
-    .card {
-        box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.1);
-        border-radius: 12px;
-        
-    }
-</style>
+</style>, onMountedimport { document } from 'postcss';
