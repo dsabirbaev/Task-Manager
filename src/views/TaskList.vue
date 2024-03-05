@@ -9,10 +9,10 @@
         </div>
         <div  v-else class="container">
             <div class="flex flex-col py-10"> 
-                <button @click="openModalAdd" class="btn-add cursor-pointer w-fit self-end border-none bg-transparent flex items-center gap-x-2 text-xl px-4 py-2 rounded-lg">Добавить <i class="pi pi-plus-circle text-xl" ></i></button>
+                <button @click="openModalAdd" class="btn-add cursor-pointer w-fit self-end border-none bg-transparent flex items-center gap-x-2 text-xl px-4 py-2 rounded-lg font-['InterMedium']">Добавить <i class="pi pi-plus-circle text-xl" ></i></button>
                 <ModalAdd :visibleModalAdd="visibleModalAdd" @closeModalAdd="closeModalAdd" />
                 <div> 
-                    <h2 class="text-center font-bold text-xl mb-5">Список задач</h2>
+                    <h2 class="text-center font-['InterMedium'] text-xl mb-5">Список задач</h2>
 
                     <div class="flex flex-col gap-y-5 items-center justify-center"> 
                         <Card v-for="item, index in listTaskStore.listTasks" :key="index" :data="item" />
@@ -47,8 +47,6 @@
 
     ////
     
-   
-
     onMounted(() => {
         listTaskStore.getTask();
     })
