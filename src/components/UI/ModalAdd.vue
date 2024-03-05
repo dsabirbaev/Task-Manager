@@ -12,7 +12,12 @@
         </div>
         <div class="flex justify-content-end gap-2">
             <Button type="button" label="Отмена" severity="secondary" @click="closeDialog"></Button>
-            <Button type="button" label="Cохранять" @click="postTask"></Button>
+            <Button type="button"  @click="postTask" :disabled="loader">
+                <template v-if="loader">
+				    <i class="pi pi-spin pi-spinner"></i>
+			    </template>
+			    <template v-else>Cохранять</template>
+            </Button>
         </div>
     </Dialog>
 </template>
@@ -27,31 +32,36 @@
     import InputText from 'primevue/inputtext';
     import Textarea from 'primevue/textarea';
     
+    //// modal window
     import { defineProps, defineEmits } from 'vue';
-
     const { visibleModalAdd } = defineProps(['visibleModalAdd']);
     const emit = defineEmits();
 
     const closeDialog = () => {
         emit('closeModalAdd');
     };
+
+    ////
+    const loader = ref(false)
     const title = ref('');
     const text = ref('');
 
     const postTask = async() => {
-        console.log(title.value)
+        loader.value = true
         const data = {
             title: title.value,
             text: text.value
         }
         try{
 
-            const res = await database.createDocument( DB_ID, COLLECTION_TASK_ID, unique_id, data);
-            console.log(res)
-
+            await database.createDocument( DB_ID, COLLECTION_TASK_ID, unique_id, data);
+          
+            loader.value = false
             closeDialog();
+            
         }catch(error){
             console.log(error)
+            loader.value = false
         }
     }
 </script>

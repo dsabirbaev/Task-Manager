@@ -14,7 +14,12 @@
         </div>
         <div class="flex justify-content-end gap-2">
             <Button type="button" label="Отмена" severity="secondary" @click="closeDialog"></Button>
-            <Button type="button" label="Pедактировать" @click="editTask"></Button>
+            <Button type="button"  @click="editTask" :disabled="loader">
+                <template v-if="loader">
+				    <i class="pi pi-spin pi-spinner"></i>
+			    </template>
+			    <template v-else>Pедактировать</template>
+            </Button>
         </div>
     </Dialog>
 
@@ -42,24 +47,26 @@
     };
 
     ////
+    const loader = ref(false)
     const title = ref('');
     const text = ref('');
 
 
 
     const editTask = async() => {
-        
+        loader.value = true
         const data = {
             title: title.value,
             text: text.value
         }
 
         try{
-            const res = await database.updateDocument(DB_ID, COLLECTION_TASK_ID, taskId, data)
-           
+            await database.updateDocument(DB_ID, COLLECTION_TASK_ID, taskId, data)
+            loader.value = false
             closeDialog();
         }catch(error){
             console.log(error)
+            loader.value = false
         }
     }
 
