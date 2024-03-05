@@ -8,16 +8,23 @@
             <i class="pi pi-spin pi-spinner text-4xl text-[#BA5112]"></i>
         </div>
         <div  v-else class="container">
-            <div class="flex flex-col py-10"> 
+            
+            <div  class="flex flex-col py-10"> 
                 <button @click="openModalAdd" class="btn-add cursor-pointer w-fit self-end border-none bg-transparent flex items-center gap-x-2 text-xl px-4 py-2 rounded-lg font-['InterMedium']">Добавить <i class="pi pi-plus-circle text-xl" ></i></button>
                 <ModalAdd :visibleModalAdd="visibleModalAdd" @closeModalAdd="closeModalAdd" />
                 <div> 
-                    <h2 class="text-center font-['InterMedium'] text-xl mb-5">Список задач</h2>
+                    <div v-if="listTaskStore.listTasks.length === 0" class="pt-10">
+                        <p class="flex items-center justify-center text-4xl font-bold">На данный момент список задач пуст!</p>
+                    </div>
+                    <div v-else>
+                        <h2 class="text-center font-['InterMedium'] text-xl mb-5">Список задач</h2>
 
-                    <div class="flex flex-col gap-y-5 items-center justify-center"> 
-                        <Card v-for="item, index in listTaskStore.listTasks" :key="index" :data="item" />
-                        
-                    </div>    
+                        <div class="flex flex-col gap-y-5 items-center justify-center"> 
+                            <Card v-for="item, index in listTaskStore.listTasks" :key="index" :data="item" />
+                            
+                        </div>    
+                    </div>
+                   
                 </div>
             </div>    
         </div>

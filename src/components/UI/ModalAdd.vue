@@ -5,9 +5,9 @@
         <Toast />
         <div class="flex flex-col gap-y-4 mb-5">
             
-            <InputText type="text" v-model="title" class="shadow-lg border-none py-3" placeholder="Заголовок" />
+            <InputText type="text" v-model.trim="title" class="shadow-lg border-none py-3" placeholder="Заголовок" />
       
-            <Textarea v-model="text" rows="10" cols="30" class="shadow-lg border-none" placeholder="Текст" />
+            <Textarea v-model.trim="text" rows="10" cols="30" class="shadow-lg border-none" placeholder="Текст" />
            
         </div>
         <div class="flex justify-content-end gap-2">
@@ -61,18 +61,26 @@
             title: title.value,
             text: text.value
         }
-        try{
-            await database.createDocument( DB_ID, COLLECTION_TASK_ID, unique_id, data);
-            loader.value = false
-            closeDialog();
-            title.value = "";
-            text.value = "";
-            toast.add({ severity: 'success', detail: 'Добавлена ​​задача!', life: 1500 });
-            listTaskStore.getTask();
-        }catch(error){
-            toast.add({ severity: 'error', detail: 'Упс, что-то пошло не так!', life: 2000 });
+        
+        if(data.title.length >= 1 && data.text.length >= 1) {
+            try{
+                await database.createDocument( DB_ID, COLLECTION_TASK_ID, unique_id, data);
+                loader.value = false
+                closeDialog();
+                title.value = "";
+                text.value = "";
+                toast.add({ severity: 'success', detail: 'Добавлена ​​задача!', life: 1500 });
+                listTaskStore.getTask();
+            }catch(error){
+                toast.add({ severity: 'error', detail: 'Упс, что-то пошло не так!', life: 2000 });
+                loader.value = false
+            } 
+        }else {
+            toast.add({ severity: 'error', detail: 'Заполнить поля!', life: 2000 });
             loader.value = false
         }
+       
+        
     }
 </script>
 

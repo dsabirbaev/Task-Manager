@@ -7,9 +7,9 @@
         
         <div class="flex flex-col gap-y-4 mb-5">
             
-            <InputText v-model="title" :value="title" type="text"  class="shadow-lg border-none py-3"  />
+            <InputText v-model.trim="title" :value="title" type="text"  class="shadow-lg border-none py-3"  />
       
-            <Textarea v-model="text" :value="text" rows="10" cols="30" class="shadow-lg border-none"  />
+            <Textarea v-model.trim="text" :value="text" rows="10" cols="30" class="shadow-lg border-none"  />
            
         </div>
         <div class="flex justify-content-end gap-2">
@@ -67,17 +67,23 @@
             title: title.value,
             text: text.value
         }
-
-        try{
-            await database.updateDocument(DB_ID, COLLECTION_TASK_ID, taskId, data)
-            loader.value = false
-            closeDialog();
-            toast.add({ severity: 'success', detail: 'Задача отредактирована!', life: 1500 });
-            listTaskStore.getTask();
-        }catch(error){
-            toast.add({ severity: 'error', detail: 'Упс, что-то пошло не так!', life: 2000 });
+        if(data.title.length >= 1 && data.text.length >= 1) {
+            try{
+                await database.updateDocument(DB_ID, COLLECTION_TASK_ID, taskId, data)
+                loader.value = false
+                closeDialog();
+                toast.add({ severity: 'success', detail: 'Задача отредактирована!', life: 1500 });
+                listTaskStore.getTask();
+            }catch(error){
+                toast.add({ severity: 'error', detail: 'Упс, что-то пошло не так!', life: 2000 });
+                loader.value = false
+            }
+        }else{
+            toast.add({ severity: 'error', detail: 'Заполнить поля!', life: 2000 });
             loader.value = false
         }
+
+       
     }
 
     const getDataById = async() => {
